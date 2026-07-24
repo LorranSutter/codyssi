@@ -42,7 +42,6 @@ TEST_DATA = parse_args()
 
 @timer
 def part1():
-    # TODO: Implement part 1
     functions, qualities = parse_file()
 
     qualities.sort()
@@ -59,7 +58,6 @@ def part1():
 
 @timer
 def part2():
-    # TODO: Implement part 2
     functions, qualities = parse_file()
 
     even_qualities = 0
@@ -74,7 +72,6 @@ def part2():
 
 @timer
 def part3():
-    # TODO: Implement part 3
     functions, qualities = parse_file()
     max_price = 15000000000000
     max_quality = ((max_price - functions[0]) / functions[1]) ** (1 / functions[2])
