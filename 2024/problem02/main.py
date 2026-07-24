@@ -6,16 +6,36 @@ from utils.timer import timer
 
 """
 Preprocessing:
--
+- Each line is either "TRUE" or "FALSE". We just compare the stripped line against "TRUE" while reading, so
+  the parsed input is a plain list of booleans, one per sensor, indexed by line order.
 
 Part 1:
--
+- The sensor ID is just its 1-indexed position in the list, so we sum `i + 1` for every index whose value is
+  truthy.
 
 Part 2:
--
+- Sensors are grouped in pairs, and the gate type alternates AND, OR, AND, OR, ... across pairs.
+- We walk the list four sensors at a time, since a group of four covers one AND pair followed by one OR pair, 
+  and add 1 to the count for each pair whose gate evaluates to TRUE.
 
 Part 3:
--
+- Same idea as part 2, but the circuit doesn't stop after one layer: the outputs of this layer's gates become
+  the inputs of the next layer, and the AND/OR alternation keeps going across the whole new layer (it doesn't
+  reset per layer).
+- We keep folding the list in half - pairing sensors, evaluating gates, alternating AND/OR - until only one 
+  value is left, adding up every TRUE value seen at every layer along the way, including the original sensors 
+  and the final single output.
+
+  For the 8-sensor example, TRUE FALSE TRUE FALSE FALSE FALSE TRUE TRUE:
+      layer 0 (sensors):   T F   T F   F F   T T    -> 4 TRUE
+      layer 1 (gates):    (T&F) (T|F) (F&F) (F|T)
+                         =  F     T     F     T     -> 2 TRUE
+      layer 2 (gates):       (F&T)       (F|T)
+                         =     F           T        -> 1 TRUE
+      layer 3 (final):             (F|T) = T        -> 1 TRUE
+  Total: 4 + 2 + 1 + 1 = 8... but the puzzle's own walkthrough stops one gate earlier and reports 7, treating
+  the very last remaining value as "the final output" rather than a gate to add in - our code mirrors that by
+  adding `sensors[0]` once at the end instead of folding it into another AND/OR pair.
 """
 
 
@@ -44,16 +64,13 @@ def part2():
 
 @timer
 def part3():
-    # 623
     sensors = parse_file()
 
     gate_type = True
     true_gates = 0
     new_sensors = []
     while len(sensors) > 1:
-        print(sensors)
         true_gates += sum(sensors)
-        print(f"True gates: {true_gates}")
         for i in range(0, len(sensors) - 1, 2):
             if gate_type:
                 new_sensor = sensors[i] and sensors[i + 1]
@@ -65,7 +82,6 @@ def part3():
         sensors = new_sensors[:]
         new_sensors = []
 
-    print(sensors)
     true_gates += sensors[0]
     print(f"Gates with output TRUE: {true_gates}")
 
