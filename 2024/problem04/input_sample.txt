@@ -4,6 +4,3 @@ PLD <-> XYZ
 ADB <-> NYC
 JLI <-> NYC
 PTO <-> ADB
-AAA <-> XYZ
-AAA <-> PTO
-AAA <-> PTO

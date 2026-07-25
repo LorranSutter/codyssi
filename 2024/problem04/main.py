@@ -1,23 +1,38 @@
 import os
-import math
-import heapq
-from typing import Dict, List, Tuple
+from collections import deque
+from typing import Dict, List
 
 from utils.args import parse_args
 from utils.timer import timer
 
 """
-Preprocessing:
--
-
 Part 1:
--
+- Each line is just an edge between two location codes, so the unique locations are simply every
+  code that shows up on either side of a "<->", collected into a set.
 
 Part 2:
--
+- This is a depth-limited traversal from STT: walk the graph outward, but stop following a branch
+  once its depth passes 3. Every location touched along the way, regardless of how many separate
+  branches reach it, gets added to a single `unique_visited` set, so the answer is just the size of
+  that set once the traversal finishes.
+- The traversal here is DFS rather than BFS, and that's fine specifically because we only care about
+  reachability within a depth limit, not about the shortest distance to each location. Revisiting a
+  node from a different branch is harmless: it just gets re-added to a set that already has it, and
+  the recursion still bottoms out because depth is strictly increasing.
+- Obs: DFS isn't the most efficient choice here though. Because it explores every branch fully before
+  backtracking, it can re-walk the same node many times over from different paths before the depth cap
+  kicks in. BFS would have been the better fit: it naturally expands outward one depth level at a time,
+  so each location gets discovered once, at its true minimum depth, without the redundant re-visits.
 
 Part 3:
--
+- The naive approach is running a shortest-path search (Dijkstra) from STT to every other location.
+  But since every edge has the same weight (1 hour) and there's no single destination to stop at, a
+  single BFS from STT already gives the shortest distance to *every* location in one pass - Dijkstra's
+  extra bookkeeping for weighted edges buys nothing here.
+- So part 3 just runs one BFS from STT, and instead of stopping once we know each node's distance, we
+  keep a running total: every time a location is popped off the queue, its distance is added to
+  `total_dist`. Because BFS visits each node exactly once, and always via its shortest path, that sum
+  is exactly the total time for one vehicle per location, each taking its shortest route.
 """
 
 
@@ -44,28 +59,17 @@ def part2():
     unique_visited = set()
     dfs("STT", graph, unique_visited, 0, 3)
 
-    print(unique_visited)
     print(f"Number of different locations: {len(unique_visited)}")
 
 
 @timer
 def part3():
-    # TODO: Implement part 3
-    # 231 incorrect
     paths = parse_file()
     graph = parse_graph(paths)
 
-    for key in graph.keys():
-        print(f"{key} -> {graph[key]}")
+    total = bfs("STT", graph)
 
-    total_time = 0
-    for i, location in enumerate(graph.keys()):
-        time, path = dijkstra(graph, "STT", location)
-        total_time += time
-        print(f"{i+1} Time between STT and {location}: {time}")
-        print(f"   Path: {" ".join(path)}")
-
-    print(f"Total time: {total_time}")
+    print(f"Total time: {total}")
 
 
 def dfs(
@@ -84,40 +88,24 @@ def dfs(
         dfs(loc, graph, unique_visited, depth + 1, max_depth)
 
 
-def dijkstra(
-    graph: Dict[str, List[str]], start: str, end: str
-) -> Tuple[int, List[str]]:
-    # Priority queue
-    pq = []
-    dist = {loc: math.inf for loc in graph.keys()}
-    parent = {coord: None for coord in graph.keys()}
-    dist[start] = 0
-    heapq.heappush(pq, (start, 0))
+def bfs(start: str, graph: Dict[str, List[str]]) -> int:
+    visited = set()
+    queue = deque()
 
-    while pq:
-        u, d = heapq.heappop(pq)
+    visited.add(start)
+    queue.append((start, 0))
 
-        if u == end:
-            # Reconstruct path
-            path = []
-            curr = end
-            while curr is not None:
-                path.append(curr)
-                curr = parent[curr]
-            path.reverse()
-            return d, path
+    total_dist = 0
+    while queue:
+        location, dist = queue.popleft()
+        total_dist += dist
 
-        # If this distance not the latest shortest one, skip it
-        if d > dist[u]:
-            continue
+        for loc in graph[location]:
+            if loc not in visited:
+                visited.add(loc)
+                queue.append((loc, dist + 1))
 
-        for v in graph[u]:
-            if dist[u] + 1 < dist[v]:
-                dist[v] = dist[u] + 1
-                parent[v] = u
-                heapq.heappush(pq, (v, dist[v]))
-
-    return -1, []
+    return total_dist
 
 
 def parse_graph(paths: List[List[str]]) -> Dict[str, List[str]]:
