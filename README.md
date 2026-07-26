@@ -1,6 +1,6 @@
 # 🧭 Codyssi
 
-[![Dashboard](https://img.shields.io/badge/Dashboard-coding--challenges-blue?style=for-the-badge)](https://github.com/LorranSutter/coding-challenges) <!-- BADGE:START -->[![Solved Challenges](https://img.shields.io/badge/Solved%20Challenges-27-brightgreen?style=for-the-badge&logo=python&logoColor=white)](https://www.codyssi.com/)<!-- BADGE:END -->
+[![Dashboard](https://img.shields.io/badge/Dashboard-coding--challenges-blue?style=for-the-badge)](https://github.com/LorranSutter/coding-challenges) <!-- BADGE:START -->[![Solved Challenges](https://img.shields.io/badge/Solved%20Challenges-30-brightgreen?style=for-the-badge&logo=python&logoColor=white)](https://www.codyssi.com/)<!-- BADGE:END -->
 
 This repository contains my solutions for [Codyssi](https://www.codyssi.com/).
 
@@ -9,7 +9,7 @@ Codyssi is a coding competition, with problems released daily and each problem s
 <!-- SUMMARY:START -->
 ## 📊 Progress
 
-> **Overall: 27/66 parts solved (41%)**
+> **Overall: 30/66 parts solved (45%)**
 
 ### [2024 — Summer at the Lab](./2024/)
 
@@ -17,7 +17,7 @@ Codyssi is a coding competition, with problems released daily and each problem s
 
 ### [2025 — Journey to Atlantis](./2025/)
 
-`███████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` **15/54** parts solved (28%)
+`██████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` **18/54** parts solved (33%)
 
 <!-- SUMMARY:END -->
 
