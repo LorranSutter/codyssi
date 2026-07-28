@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Tuple
 
 
 class bcolors:
@@ -38,6 +38,20 @@ class tcolors:
     RESET = "\033[0m"
 
 
-def print_matrix(matrix: List[List[str]]):
+def print_matrix(matrix: List[List[str | int]]):
     for row in matrix:
-        print("".join(row))
+        print("".join(str(cell) for cell in row))
+
+
+def print_matrix_with_path(
+    matrix: List[List[str | int]],
+    path: List[Tuple[int, int]],
+    color: str = tcolors.GREEN,
+):
+    path_set = set(path)
+    for r, row in enumerate(matrix):
+        line = "".join(
+            f"{color}{cell}{tcolors.RESET}" if (r, c) in path_set else str(cell)
+            for c, cell in enumerate(row)
+        )
+        print(line)
