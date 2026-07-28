@@ -1,7 +1,7 @@
 # 2025 — Journey to Atlantis
 
 <!-- SUMMARY:START -->
-`████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░` **24/54** parts solved (44%)
+`███████████████████████████░░░░░░░░░░░░░░░░░░░░░░░░░░░` **27/54** parts solved (50%)
 
 | Problem | Part 1 | Part 2 | Part 3 |
 |:--------|:------:|:------:|:------:|
@@ -13,7 +13,7 @@
 | [Problem 06](./problem06/) | ⭐ | ⭐ | ⭐ |
 | [Problem 07](./problem07/) | ⭐ | ⭐ | ⭐ |
 | [Problem 08](./problem08/) | ⭐ | ⭐ | ⭐ |
-| Problem 09 | ⬚ | ⬚ | ⬚ |
+| [Problem 09](./problem09/) | ⭐ | ⭐ | ⭐ |
 | Problem 10 | ⬚ | ⬚ | ⬚ |
 | Problem 11 | ⬚ | ⬚ | ⬚ |
 | Problem 12 | ⬚ | ⬚ | ⬚ |
