@@ -51,14 +51,14 @@ Part 3:
   directly, no search needed.
 """
 
+TEST_DATA = parse_args()
+
 
 @dataclass
 class Num:
     num: str
     base: int
 
-
-TEST_DATA = parse_args()
 
 alphabet = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz!@#$%^"
 alphabet_to_num = {char: i for i, char in enumerate(alphabet)}
