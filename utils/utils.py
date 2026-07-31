@@ -38,19 +38,20 @@ class tcolors:
     RESET = "\033[0m"
 
 
-def print_matrix(matrix: List[List[str | int]]):
+def print_matrix(matrix: List[List[str | int]], sep: str = " "):
     for row in matrix:
-        print("".join(str(cell) for cell in row))
+        print(sep.join(str(cell) for cell in row))
 
 
 def print_matrix_with_path(
     matrix: List[List[str | int]],
     path: List[Tuple[int, int]],
     color: str = tcolors.GREEN,
+    sep: str = " ",
 ):
     path_set = set(path)
     for r, row in enumerate(matrix):
-        line = "".join(
+        line = sep.join(
             f"{color}{cell}{tcolors.RESET}" if (r, c) in path_set else str(cell)
             for c, cell in enumerate(row)
         )
